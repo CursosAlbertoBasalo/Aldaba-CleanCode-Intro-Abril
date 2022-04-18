@@ -1,0 +1,200 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": [
+    "prettier",
+    "@typescript-eslint"
+  ],
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "globals": {},
+  "rules": {
+    "curly": [
+      "warn",
+      "all"
+    ],
+    "no-magic-numbers": [
+      "warn",
+      {
+        "detectObjects": false,
+        "enforceConst": true,
+        "ignore": [
+          -1,
+          0,
+          1,
+          2
+        ],
+        "ignoreArrayIndexes": true
+      }
+    ],
+    "no-multiple-empty-lines": [
+      "warn",
+      {
+        "max": 1,
+        "maxEOF": 1
+      }
+    ],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/naming-convention": [
+      "warn",
+      {
+        "selector": "default",
+        "format": [
+          "camelCase"
+        ],
+        "leadingUnderscore": "forbid"
+      },
+      {
+        "selector": "typeLike",
+        "format": [
+          "PascalCase"
+        ]
+      },
+      {
+        "selector": "enumMember",
+        "format": [
+          "UPPER_CASE"
+        ]
+      },
+      {
+        "selector": [
+          "memberLike",
+          "variableLike"
+        ],
+        "types": [
+          "boolean"
+        ],
+        "format": [
+          "PascalCase"
+        ],
+        "prefix": [
+          "can",
+          "did",
+          "has",
+          "is",
+          "must",
+          "should",
+          "will"
+        ]
+      },
+      {
+        "selector": [
+          "memberLike",
+          "variableLike"
+        ],
+        "types": [
+          "array"
+        ],
+        "format": [
+          "camelCase"
+        ],
+        "custom": {
+          "match": true,
+          "regex": "[s|List]$"
+        }
+      },
+      {
+        "selector": [
+          "function",
+          "method"
+        ],
+        "format": [
+          "PascalCase"
+        ],
+        "prefix": [
+          "add",
+          "are",
+          "assert",
+          "assign",
+          "build",
+          "can",
+          "check",
+          "calculate",
+          "concat",
+          "create",
+          "delete",
+          "describe",
+          "destroy",
+          "disable",
+          "divide",
+          "do",
+          "does",
+          "did",
+          "enable",
+          "execute",
+          "find",
+          "finish",
+          "fix",
+          "get",
+          "grant",
+          "handle",
+          "has",
+          "initialize",
+          "insert",
+          "is",
+          "list",
+          "make",
+          "merge",
+          "mount",
+          "multiply",
+          "onChange",
+          "onError",
+          "onInit",
+          "onSuccess",
+          "parse",
+          "pay",
+          "post",
+          "put",
+          "request",
+          "refund",
+          "register",
+          "remove",
+          "run",
+          "save",
+          "search",
+          "select",
+          "send",
+          "set",
+          "should",
+          "sort",
+          "split",
+          "start",
+          "strip",
+          "subtract",
+          "sum",
+          "take",
+          "test",
+          "throw",
+          "transform",
+          "update",
+          "validate",
+          "verify",
+          "warn"
+        ]
+      }
+    ],
+    "prettier/prettier": [
+      "warn",
+      {
+        "endOfLine": "auto"
+      }
+    ]
+  },
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "module",
+    "project": "./tsconfig.json",
+    "ecmaFeatures": {
+      "modules": true
+    }
+  }
+}
