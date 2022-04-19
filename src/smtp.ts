@@ -1,4 +1,4 @@
-export class SMTP {
+export class Smtp {
   private smtpServer = "smtp.astrobookings.com";
   private smtpPort = 25;
   private smtpSecurePort = 587;
@@ -14,11 +14,11 @@ export class SMTP {
     this.to = to;
     this.subject = subject;
     this.body = body;
-    this.sendMailWithSMTP(false);
+    this.sendMailWithSmtp(false);
     return "250 OK";
   }
 
-  private sendMailWithSMTP(needsSecurity: boolean): string {
+  private sendMailWithSmtp(needsSecurity: boolean): string {
     console.log(`Sending mail from ${this.from} to ${this.to} with subject ${this.subject} and body ${this.body}`);
     if (needsSecurity) {
       console.log(

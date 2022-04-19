@@ -4,7 +4,7 @@
 import { Booking, BookingStatus } from "./booking";
 import { DataBase } from "./data_base";
 import { PaymentMethod, Payments } from "./payments";
-import { SMTP } from "./smtp";
+import { Smtp } from "./smtp";
 import { Traveler } from "./traveler";
 import { Trip } from "./trip";
 
@@ -114,7 +114,7 @@ export class BookingsService {
       this.booking.status = BookingStatus.PAID;
     } else {
       this.booking.status = BookingStatus.ERROR;
-      const smtp = new SMTP();
+      const smtp = new Smtp();
       smtp.sendMail(
         "payments@astrobookings.com",
         this.traveler.email,

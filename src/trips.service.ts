@@ -3,18 +3,18 @@
 /* eslint-disable max-statements */
 import { Booking, BookingStatus } from "./booking";
 import { DataBase } from "./data_base";
-import { SMTP } from "./smtp";
+import { Smtp } from "./smtp";
 import { Traveler } from "./traveler";
 import { Trip, TripStatus } from "./trip";
 
-export class Trips {
+export class TripsService {
   public cancelTrip(tripId: string) {
     const trip: Trip = DataBase.selectOne<Trip>(`SELECT * FROM trips WHERE id = '${tripId}'`);
     trip.status = TripStatus.CANCELLED;
     DataBase.update(trip);
     const bookings: Booking[] = DataBase.select("SELECT * FROM bookings WHERE trip_id = " + tripId);
     if (bookings.length > 0) {
-      const smtp = new SMTP();
+      const smtp = new Smtp();
       for (const booking of bookings) {
         booking.status = BookingStatus.CANCELLED;
         DataBase.update(booking);

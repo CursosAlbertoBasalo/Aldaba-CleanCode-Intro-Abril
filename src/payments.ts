@@ -2,8 +2,8 @@
 /* eslint-disable max-depth */
 /* eslint-disable max-lines-per-function */
 import { Booking } from "./booking";
-import { HTTP } from "./http";
-import { SMTP } from "./smtp";
+import { Http } from "./http";
+import { Smtp } from "./smtp";
 
 export enum PaymentMethod {
   CREDIT_CARD,
@@ -29,7 +29,7 @@ export class Payments {
     switch (method) {
       case PaymentMethod.CREDIT_CARD: {
         const url = `${this.cardWayAPIUrl}payments/card${cardNumber}/${cardExpiry}/${cardCVC}`;
-        const response = HTTP.request(url, { method: "POST", body: { amount: booking.price, concept: booking.id } });
+        const response = Http.request(url, { method: "POST", body: { amount: booking.price, concept: booking.id } });
         if (response.status === 200) {
           return response.body ? (response.body.transactionID as string) : "";
         } else {
@@ -38,7 +38,7 @@ export class Payments {
       }
       case PaymentMethod.PAY_ME: {
         const url = `${this.payMeAPIUrl}`;
-        const response = HTTP.request(url, {
+        const response = Http.request(url, {
           method: "POST",
           body: { payMeAccount, payMeCode, amount: booking.price, identification: booking.id },
         });
@@ -49,7 +49,7 @@ export class Payments {
         }
       }
       case PaymentMethod.TRANSFER: {
-        const smtp = new SMTP();
+        const smtp = new Smtp();
         const subject = `Payment request for Booking ${booking.id}`;
         const body = `Please transfer ${booking.price} to ${transferAccount}`;
         smtp.sendMail("payments@astrobookings.com", this.bankEmail, subject, body);
