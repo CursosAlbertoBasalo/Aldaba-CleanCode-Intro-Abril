@@ -17,9 +17,55 @@
   },
   "globals": {},
   "rules": {
+    "arrow-parens": [
+      "warn",
+      "as-needed"
+    ],
+    "block-spacing": [
+      "warn",
+      "always"
+    ],
     "curly": [
       "warn",
       "all"
+    ],
+    "max-depth": [
+      "warn",
+      1
+    ],
+    "max-nested-callbacks": [
+      "warn",
+      1
+    ],
+    "max-statements": [
+      "warn",
+      9
+    ],
+    "max-statements-per-line": [
+      "warn",
+      {
+        "max": 1
+      }
+    ],
+    "max-lines-per-function": [
+      "warn",
+      {
+        "max": 19,
+        "skipBlankLines": true,
+        "skipComments": true
+      }
+    ],
+    "one-var-declaration-per-line": [
+      "warn",
+      "always"
+    ],
+    "operator-linebreak": [
+      "warn",
+      "none"
+    ],
+    "operator-assignment": [
+      "warn",
+      "always"
     ],
     "no-magic-numbers": [
       "warn",
@@ -35,6 +81,9 @@
         "ignoreArrayIndexes": true
       }
     ],
+    "no-mixed-operators": [
+      "warn"
+    ],
     "no-multiple-empty-lines": [
       "warn",
       {
@@ -42,6 +91,8 @@
         "maxEOF": 1
       }
     ],
+    "no-nested-ternary": "warn",
+    "no-unneeded-ternary": "warn",
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "warn",
     "@typescript-eslint/naming-convention": [
@@ -82,6 +133,7 @@
           "has",
           "is",
           "must",
+          "needs",
           "should",
           "will"
         ]
@@ -117,6 +169,7 @@
           "assign",
           "build",
           "can",
+          "cancel",
           "check",
           "calculate",
           "concat",
@@ -142,6 +195,8 @@
           "insert",
           "is",
           "list",
+          "load",
+          "log",
           "make",
           "merge",
           "mount",
@@ -153,6 +208,8 @@
           "parse",
           "pay",
           "post",
+          "print",
+          "process",
           "put",
           "request",
           "refund",
