@@ -6,11 +6,11 @@
 
 > Style Guide
 
--[ ] **1.1.- Variable naming with nouns**
+-[x] **1.1.- Variable naming with nouns**
 
--[ ] **1.2.- Function naming with verbs**
+-[x] **1.2.- Function naming with verbs**
 
--[ ] **1.3.- Magic numbers and redundant comments**
+-[x] **1.3.- Magic numbers and redundant comments**
 
 ## 2.- FUNCTION
 
