@@ -2,6 +2,7 @@ export class Smtp {
   private smtpServer = "smtp.astrobookings.com";
   private smtpPort = 25;
   private smtpSecurePort = 587;
+  private smtpResultOk = "250 OK";
   private smtpUser = "Traveler assistant";
   private smtpPassword = "astrobookings";
   private from!: string;
@@ -14,20 +15,27 @@ export class Smtp {
     this.to = to;
     this.subject = subject;
     this.body = body;
-    this.sendMailWithSmtp(false);
-    return "250 OK";
+    const needsSecureSmtp = true;
+    // 🧼 🚿 no flags as parameters
+    if (needsSecureSmtp) {
+      return this.sendMailWithSecureSmtp();
+    } else {
+      return this.sendMailWithSmtp();
+    }
   }
 
-  private sendMailWithSmtp(needsSecurity: boolean): string {
+  private sendMailWithSecureSmtp(): string {
+    console.log(
+      `Sending SECURED mail from ${this.from} to ${this.to} with subject ${this.subject} and body ${this.body}`,
+    );
+    console.log(
+      `Using ${this.smtpServer} port ${this.smtpSecurePort} user ${this.smtpUser} password ${this.smtpPassword}`,
+    );
+    return this.smtpResultOk;
+  }
+  private sendMailWithSmtp(): string {
     console.log(`Sending mail from ${this.from} to ${this.to} with subject ${this.subject} and body ${this.body}`);
-    if (needsSecurity) {
-      console.log(
-        `Using ${this.smtpServer} port ${this.smtpSecurePort} user ${this.smtpUser} password ${this.smtpPassword}`,
-      );
-      return "250 OK";
-    } else {
-      console.log(`Using ${this.smtpServer} port ${this.smtpPort}`);
-      return "250 OK";
-    }
+    console.log(`Using ${this.smtpServer} port ${this.smtpPort}`);
+    return this.smtpResultOk;
   }
 }
