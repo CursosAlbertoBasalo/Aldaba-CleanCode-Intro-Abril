@@ -1,12 +1,16 @@
-export class Response {
-  public url: string | undefined;
-  public status: number | undefined;
-  public body: Record<string, unknown> | undefined;
-}
+export type HttpResponse = {
+  url: string | undefined;
+  status: number | undefined;
+  body: Record<string, unknown> | undefined;
+};
+type HttpRequest = {
+  url: string;
+  options: unknown;
+};
+
 export class HttpService {
-  static readonly responseOk = 200;
-  static request(url: string, options: unknown): Response {
-    console.log(url, options);
-    return { url, status: HttpService.responseOk, body: { data: {} } };
+  static request(httpRequest: HttpRequest): HttpResponse {
+    console.log(httpRequest);
+    return { url: httpRequest.url, status: 200, body: { data: {} } };
   }
 }
