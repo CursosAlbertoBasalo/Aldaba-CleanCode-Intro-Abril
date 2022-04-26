@@ -3,7 +3,7 @@
 /* eslint-disable max-statements */
 import { Booking, BookingStatus } from "./booking";
 import { DataBase } from "./data_base";
-import { Smtp } from "./smtp";
+import { SmtpService } from "./smtp.service";
 import { Traveler } from "./traveler";
 import { Trip, TripStatus } from "./trip";
 
@@ -14,7 +14,7 @@ export class TripsService {
     DataBase.update(trip);
     const bookings: Booking[] = DataBase.select("SELECT * FROM bookings WHERE trip_id = " + tripId);
     if (bookings.length > 0) {
-      const smtp = new Smtp();
+      const smtp = new SmtpService();
       for (const booking of bookings) {
         booking.status = BookingStatus.CANCELLED;
         DataBase.update(booking);

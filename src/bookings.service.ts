@@ -3,8 +3,8 @@
 /* eslint-disable max-lines-per-function */
 import { Booking, BookingStatus } from "./booking";
 import { DataBase } from "./data_base";
-import { PaymentMethod, Payments } from "./payments";
-import { Smtp } from "./smtp";
+import { PaymentMethod, PaymentsService } from "./payments.service";
+import { SmtpService } from "./smtp.service";
 import { Traveler } from "./traveler";
 import { Trip } from "./trip";
 
@@ -98,7 +98,7 @@ export class BookingsService {
 
   private pay(cardNumber: string, cardExpiry: string, cardCVC: string) {
     this.booking.price = this.calculatePrice();
-    const payments = new Payments();
+    const payments = new PaymentsService();
     const paymentId = payments.payBooking(
       this.booking,
       PaymentMethod.CREDIT_CARD,
@@ -114,7 +114,7 @@ export class BookingsService {
       this.booking.status = BookingStatus.PAID;
     } else {
       this.booking.status = BookingStatus.ERROR;
-      const smtp = new Smtp();
+      const smtp = new SmtpService();
       smtp.sendMail(
         "payments@astrobookings.com",
         this.traveler.email,
