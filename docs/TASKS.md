@@ -16,11 +16,11 @@
 
 > Instructions, blocks and structures
 
--[ ] **2.1.- Simple instructions**
+-[x] **2.1.- Simple instructions**
 
--[ ] **2.2.- Small blocks**
+-[x] **2.2.- Small blocks**
 
--[ ] **2.3.- Plain structure**
+-[x] **2.3.- Plain structure**
 
 ## 3.- DATA
 
