@@ -2,6 +2,8 @@
 import { BookingsRequestDto } from "./bookings_request.dto";
 import { CreditCardVo } from "./credit_card.vo";
 
+// 🧼 🚿 Complex validation encapsulated
+
 export class BookingsRequestVo {
   travelerId: string;
   tripId: string;
@@ -9,6 +11,8 @@ export class BookingsRequestVo {
   card: CreditCardVo;
   hasPremiumFoods: boolean;
   extraLuggageKilos: number;
+
+  // 🧼 🚿 Using a DTO as a carrier, and this VO as a validator
 
   constructor(bookingsRequestDTO: BookingsRequestDto) {
     if (this.hasEntitiesId(bookingsRequestDTO) === false) {
