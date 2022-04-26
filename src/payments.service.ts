@@ -11,10 +11,8 @@ export class PaymentsService {
   private payMeAPIUrl = "https://pay-me.com/v1/payments";
   private bankEmail = "humanprocessor@bancka.com";
 
-  // 🧼 🚿 Constructor with common data
   constructor(private booking: BookingDto) {}
 
-  // 🧼 🚿 Value object to avoid multiple parameters on methods signatures AND ensure valid data
   public payWithCard(creditCard: CreditCardVo) {
     const url = `${this.cardWayAPIUrl}payments/card${creditCard.number}/${creditCard.expiration}/${creditCard.cvv}`;
     const response = HttpService.request({
