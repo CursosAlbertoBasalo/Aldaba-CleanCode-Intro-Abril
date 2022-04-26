@@ -1,6 +1,6 @@
 import { NotificationKinds } from "./notification_kinds.enum";
 
-export const NotificationsMap = [
+export const notificationsMap = [
   {
     kind: NotificationKinds.BANK_TRANSFER_REQUEST,
     sender: "payments@astrobookings.com",
