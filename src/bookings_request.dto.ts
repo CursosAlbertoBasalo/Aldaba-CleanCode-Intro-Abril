@@ -1,4 +1,4 @@
-// 🧼 Data transfer object to avoid primitive types in the code
+// * 🧼 🚿 CLEAN:  Data transfer object to avoid primitive types in the code
 
 export type BookingsRequestDto = {
   travelerId: string; // - the id of the traveler soliciting the booking

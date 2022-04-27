@@ -1,4 +1,4 @@
-// 🧼 🚿 A Value Object with transformation logic
+// * 🧼 🚿 CLEAN:  A Value Object with transformation logic
 
 export class DateRangeVo {
   public get toWholeDays() {
@@ -10,9 +10,9 @@ export class DateRangeVo {
   }
 
   constructor(public readonly start: Date, public readonly end: Date) {
-    // 🧼 🚿 date range ensures the range is valid
-    // readonly means that the property cannot be changed
-    // if you want to change the property you need to call the assertion form the setter
+    // * 🧼 🚿 CLEAN:  date range ensures the range is valid
+    // * readonly means that the property cannot be changed
+    // * if you want to change the property you need to call the assertion form the setter
     this.assertValidDates();
   }
   private assertValidDates() {

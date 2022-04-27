@@ -2,7 +2,7 @@
 import { BookingsRequestDto } from "./bookings_request.dto";
 import { CreditCardVo } from "./credit_card.vo";
 
-// 🧼 🚿 Complex validation encapsulated
+// * 🧼 🚿 CLEAN:  Complex validation encapsulated
 
 export class BookingsRequestVo {
   travelerId: string;
@@ -12,7 +12,7 @@ export class BookingsRequestVo {
   hasPremiumFoods: boolean;
   extraLuggageKilos: number;
 
-  // 🧼 🚿 Using a DTO as a carrier, and this VO as a validator
+  // * 🧼 🚿 CLEAN:  Using a DTO as a carrier, and this VO as a validator
 
   constructor(bookingsRequestDTO: BookingsRequestDto) {
     if (this.hasEntitiesId(bookingsRequestDTO) === false) {

@@ -13,14 +13,14 @@ export class TripsService {
   private tripId = "";
   private trip!: TripDto;
   public cancelTrip(tripId: string) {
-    // 🧼 Saved as a properties on the class to reduce method parameters
+    // * 🧼 🚿 CLEAN:  Saved as a properties on the class to reduce method parameters
     this.tripId = tripId;
     this.trip = this.updateTripStatus();
     this.cancelBookings();
   }
 
   public findTrips(findTripsDTO: FindTripsDto): TripDto[] {
-    // 🧼 date range ensures the range is valid
+    // * 🧼 🚿 CLEAN:  date range ensures the range is valid
     const dates = new DateRangeVo(findTripsDTO.startDate, findTripsDTO.endDate);
     const trips: TripDto[] = DataBase.select(
       `SELECT * FROM trips WHERE destination = '${findTripsDTO.destination}' AND start_date >= '${dates.start}' AND end_date <= '${dates.end}'`,

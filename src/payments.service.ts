@@ -11,10 +11,10 @@ export class PaymentsService {
   private payMeAPIUrl = "https://pay-me.com/v1/payments";
   private bankEmail = "humanprocessor@bancka.com";
 
-  // 🧼 🚿 Constructor with common data
+  // * 🧼 🚿 CLEAN:  Constructor with common data
   constructor(private booking: BookingDto) {}
 
-  // 🧼 🚿 Value object to avoid multiple parameters on methods signatures AND ensure valid data
+  // * 🧼 🚿 CLEAN:  Value object to avoid multiple parameters on methods signatures AND ensure valid data
   public payWithCard(creditCard: CreditCardVo) {
     const url = `${this.cardWayAPIUrl}payments/card${creditCard.number}/${creditCard.expiration}/${creditCard.cvv}`;
     const response = HttpService.request({
@@ -28,7 +28,7 @@ export class PaymentsService {
     }
   }
 
-  // 🧼 🚿 Data transfer object to avoid multiple parameters on methods signatures
+  // * 🧼 🚿 CLEAN:  Data transfer object to avoid multiple parameters on methods signatures
   public payWithPayMe(payMe: PayMeDto) {
     const url = `${this.payMeAPIUrl}`;
     const response = HttpService.request({
@@ -50,7 +50,7 @@ export class PaymentsService {
     }
   }
 
-  // ToDo: create a Value Object for ensuring correct account name
+  // ToDo: 💩 🤢 create a Value Object for ensuring correct account name
   public payWithBank(transferAccount: string) {
     const smtp = new SmtpService();
     const subject = `Payment request for Booking ${this.booking.id}`;

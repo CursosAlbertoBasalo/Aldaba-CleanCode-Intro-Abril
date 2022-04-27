@@ -1,6 +1,6 @@
 import { NotificationKinds } from "./notification_kinds.enum";
-// 🧼 🚿 Using an array as a map for avoid switches
-// could be a dictionary or any other list structure
+// * 🧼 🚿 CLEAN:  Using an array as a map for avoid switches
+// * could be a dictionary or any other list structure
 
 export const notificationsMap = [
   {
