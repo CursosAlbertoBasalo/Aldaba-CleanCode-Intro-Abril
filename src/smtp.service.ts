@@ -16,7 +16,7 @@ export class SmtpService {
     this.subject = subject;
     this.body = body;
     const needsSecureSmtp = true;
-    // 🧼 🚿 no flags as parameters
+    // * 🧼 🚿 CLEAN:  no flags as parameters
     if (needsSecureSmtp) {
       return this.sendMailWithSecureSmtp();
     } else {

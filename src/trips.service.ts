@@ -6,12 +6,12 @@ import { Trip, TripStatus } from "./trip";
 
 export class TripsService {
   public cancelTrip(tripId: string) {
-    // 🧼 🚿 same level of abstraction statements
+    // * 🧼 🚿 CLEAN:  same level of abstraction statements
     const trip: Trip = this.selectTrip(tripId);
     trip.status = TripStatus.CANCELLED;
     this.updateTrip(trip);
     const bookings: Booking[] = this.selectBookings(tripId);
-    // 🧼 🚿 reduce nesting
+    // * 🧼 🚿 CLEAN:  reduce nesting
     if (bookings.length > 0) {
       this.cancelBookings(bookings, trip);
     }
@@ -19,7 +19,7 @@ export class TripsService {
 
   private cancelBookings(bookings: Booking[], trip: Trip) {
     const smtp = new SmtpService();
-    // 🧼 🚿 no nested structures nor complex blocks
+    // * 🧼 🚿 CLEAN:  no nested structures nor complex blocks
     for (const booking of bookings) {
       this.cancelBooking(booking, smtp, trip);
     }
@@ -39,7 +39,7 @@ export class TripsService {
     this.sendCancellationEmail(smtp, traveler, trip);
   }
 
-  // 🧼 🚿 same level of abstraction functions
+  // * 🧼 🚿 CLEAN:  same level of abstraction functions
   private sendCancellationEmail(smtp: SmtpService, traveler: Traveler, trip: Trip) {
     smtp.sendMail(
       "trips@astrobookings.com",

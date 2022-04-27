@@ -9,7 +9,7 @@ export class PaymentsService {
   private payMeAPIUrl = "https://pay-me.com/v1/payments";
   private bankEmail = "humanprocessor@bancka.com";
 
-  // 🧼 🚿 remove switch and enum flag, using specific functions instead
+  // * 🧼 🚿 CLEAN:  remove switch and enum flag, using specific functions instead
 
   public payWithCard(booking: Booking, cardNumber: string, cardExpiry: string, cardCVC: string) {
     const url = `${this.cardWayAPIUrl}payments/card${cardNumber}/${cardExpiry}/${cardCVC}`;

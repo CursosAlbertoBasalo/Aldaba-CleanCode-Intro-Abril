@@ -33,20 +33,20 @@ export class BookingsService {
     hasPremiumFoods: boolean,
     extraLuggageKilos: number,
   ): Booking {
-    // 🧼 🚿 early return
-    // 🧼 🚿 conditional validation on functions
+    // * 🧼 🚿 CLEAN:  early return
+    // * 🧼 🚿 CLEAN:  conditional validation on functions
     if (this.hasEntitiesId(travelerId, tripId) === false) {
       throw new Error("Invalid parameters");
     }
     this.create(travelerId, tripId, passengersCount, hasPremiumFoods, extraLuggageKilos);
     this.booking.id = this.save();
-    // 🧼 🚿 one condition per function
+    // * 🧼 🚿 CLEAN:  one condition per function
     this.pay(cardNumber, cardExpiry, cardCVC);
     return this.booking;
   }
 
   private pay(cardNumber: string, cardExpiry: string, cardCVC: string) {
-    // 🧼 🚿 conditional validation on functions
+    // * 🧼 🚿 CLEAN:  conditional validation on functions
     if (this.hasCreditCard(cardNumber, cardExpiry, cardCVC)) {
       this.payWithCreditCard(cardNumber, cardExpiry, cardCVC);
     } else {
@@ -55,7 +55,7 @@ export class BookingsService {
   }
 
   private hasEntitiesId(travelerId: string, tripId: string): boolean {
-    return travelerId !== "" && tripId !== ""; // 🧼 🚿 complex conditionals closed inside functions
+    return travelerId !== "" && tripId !== ""; // * 🧼 🚿 CLEAN:  complex conditionals closed inside functions
   }
 
   private hasCreditCard(cardNumber: string, cardExpiry: string, cardCVC: string): boolean {
@@ -82,7 +82,7 @@ export class BookingsService {
       throw new Error(`Nobody can't have more than ${maxPassengersCount} passengers`);
     }
     const maxNonVipPassengersCount = 4;
-    // 🧼 🚿 conditional validation on functions
+    // * 🧼 🚿 CLEAN:  conditional validation on functions
     if (this.hasTooManyPassengersForNonVip(travelerId, passengersCount, maxNonVipPassengersCount)) {
       throw new Error(`No VIPs cant't have more than ${maxNonVipPassengersCount} passengers`);
     }
@@ -93,7 +93,7 @@ export class BookingsService {
   }
 
   private hasTooManyPassengersForNonVip(travelerId: string, passengersCount: number, maxNonVipPassengersCount: number) {
-    // 🧼 🚿 one operator per statement
+    // * 🧼 🚿 CLEAN:  one operator per statement
     const isTooMuchForNonVip = passengersCount > maxNonVipPassengersCount;
     const isNonVip = this.isNonVip(travelerId);
     return isNonVip && isTooMuchForNonVip;
@@ -112,7 +112,7 @@ export class BookingsService {
     }
   }
 
-  // 🧼 🚿 low abstraction methods
+  // * 🧼 🚿 CLEAN:  low abstraction methods
 
   private selectTrip(tripId: string) {
     return DataBase.selectOne<Trip>(`SELECT * FROM trips WHERE id = '${tripId}'`);
@@ -133,7 +133,7 @@ export class BookingsService {
   private payWithCreditCard(cardNumber: string, cardExpiry: string, cardCVC: string) {
     this.booking.price = this.calculatePrice();
     const paymentId = this.payPriceWithCard(cardNumber, cardExpiry, cardCVC);
-    // 🧼 🚿 conditional blocks on functions
+    // * 🧼 🚿 CLEAN:  conditional blocks on functions
     if (paymentId != "") {
       this.setPaymentStatus();
     } else {
@@ -153,7 +153,7 @@ export class BookingsService {
     this.sendPaymentErrorEmail(cardNumber);
   }
 
-  // 🧼 🚿 low abstraction SMTP
+  // * 🧼 🚿 CLEAN:  low abstraction SMTP
   private sendPaymentErrorEmail(cardNumber: string) {
     const smtp = new SmtpService();
     smtp.sendMail(
@@ -170,7 +170,7 @@ export class BookingsService {
   }
 
   private calculatePrice(): number {
-    // 🧼 🚿 large process divided in small ones
+    // * 🧼 🚿 CLEAN:  large process divided in small ones
     const millisecondsPerDay = this.calculateMillisecondsPerDay();
     const stayingNights = this.calculateStayingNights(millisecondsPerDay);
 
@@ -204,7 +204,7 @@ export class BookingsService {
     const secondsPerMinute = 60;
     const minutesPerHour = 60;
     const hoursPerDay = 24;
-    // 🧼 🚿 one operator per statement
+    // * 🧼 🚿 CLEAN:  one operator per statement
     const millisecondsPerMinute = millisecondsPerSecond * secondsPerMinute;
     const millisecondsPerHour = millisecondsPerMinute * minutesPerHour;
     const millisecondsPerDay = millisecondsPerHour * hoursPerDay;
