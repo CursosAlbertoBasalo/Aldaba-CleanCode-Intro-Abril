@@ -26,7 +26,6 @@ export class PaymentsService {
     }
   }
 
-  // 🧼 🚿 Data transfer object to avoid multiple parameters on methods signatures
   public payWithPayMe(payMe: PayMeDto) {
     const url = `${this.payMeAPIUrl}`;
     const response = HttpService.request({
@@ -48,7 +47,6 @@ export class PaymentsService {
     }
   }
 
-  // ToDo: create a Value Object for ensuring correct account name
   public payWithBank(transferAccount: string) {
     const smtp = new SmtpService();
     const subject = `Payment request for Booking ${this.booking.id}`;

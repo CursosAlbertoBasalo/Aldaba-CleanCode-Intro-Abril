@@ -4,6 +4,7 @@ import { NotificationKinds } from "./notification_kinds.enum";
 import { SmtpService } from "./smtp.service";
 
 export class NotificationsService {
+  // ToDo : 💩 🤢 Depending on concrete implementations
   private smtp = new SmtpService();
 
   public notifyTripCancellation(cancellation: NotificationEventDto): string {

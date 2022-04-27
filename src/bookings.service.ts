@@ -11,6 +11,8 @@ import { SmtpService } from "./smtp.service";
 import { TravelerDto } from "./traveler.dto";
 import { TripDto } from "./trip.dto";
 
+// ToDo : 💩 🤢 Too many responsibilities
+
 export class BookingsService {
   private booking!: BookingDto;
   private trip!: TripDto;

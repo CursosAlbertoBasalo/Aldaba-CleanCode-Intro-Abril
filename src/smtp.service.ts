@@ -1,5 +1,7 @@
 import { EmailDto } from "./email.dto";
 
+// ToDo : 💩 🤢 Taking the same decision every time
+
 export class SmtpService {
   private smtpServer = "smtp.astrobookings.com";
   private smtpPort = 25;
