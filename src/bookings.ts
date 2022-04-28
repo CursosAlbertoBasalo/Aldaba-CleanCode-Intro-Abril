@@ -2,6 +2,7 @@ import { DB } from "./bd";
 import { Booking, BookingStatus } from "./booking";
 import { Traveler } from "./traveler";
 import { Trip } from "./trip";
+// ToDo: 💩 🤢 Incoherent naming
 
 export class bookings {
   private booking!: Booking;
@@ -37,6 +38,7 @@ export class bookings {
     return this.booking;
   }
 
+  // ToDo: 💩 🤢 Verb better than Comment
   /**
    * Creates a new booking
    */

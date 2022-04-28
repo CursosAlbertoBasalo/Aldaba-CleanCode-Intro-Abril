@@ -1,9 +1,12 @@
+// ToDo: 💩 🤢 PascalCase or SCREAM_CASE
 export enum BookingStatus {
   requested,
   paid,
   reserved,
   notified_reserve,
 }
+
+// ToDo: 💩 🤢 Bad variable names
 
 export class Booking {
   public id: string | undefined;

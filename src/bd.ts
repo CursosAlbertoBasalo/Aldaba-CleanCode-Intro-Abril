@@ -1,3 +1,6 @@
+// ToDo: 💩 🤢 Acronym as name of class
+// ToDo: 💩 🤢 Method names incoherent
+
 export class DB {
   public static select<T>(query: string): T[] {
     console.log(query);

@@ -1,3 +1,5 @@
+// ToDo: 💩 🤢 PascalCase or SCREAM_CASE
+
 export enum TripKinds {
   TRIP_ONLY,
   with_Stay,
@@ -9,6 +11,8 @@ export enum TripStatus {
   confirmed,
   notified,
 }
+
+// ToDo: 💩 🤢 Names are not descriptive enough
 
 export class Trip {
   public id: string | undefined;
