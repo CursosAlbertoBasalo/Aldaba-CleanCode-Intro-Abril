@@ -18,6 +18,7 @@ export class SmtpService {
     return "250 OK";
   }
 
+  // ToDo: 💩 🤢 a boolean flag a as a parameter
   private sendMailWithSmtp(needsSecurity: boolean): string {
     console.log(`Sending mail from ${this.from} to ${this.to} with subject ${this.subject} and body ${this.body}`);
     if (needsSecurity) {

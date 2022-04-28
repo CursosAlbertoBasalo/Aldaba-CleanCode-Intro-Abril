@@ -40,6 +40,7 @@ export class BookingsService {
     if (travelerId && tripId) {
       this.create(travelerId, tripId, passengersCount, hasPremiumFoods, extraLuggageKilos);
       this.save();
+      // ToDo: 💩 🤢 multiple conditions
       if (cardNumber && cardExpiry && cardCVC) {
         this.pay(cardNumber, cardExpiry, cardCVC);
       } else {
@@ -71,6 +72,7 @@ export class BookingsService {
       throw new Error(`Nobody can't have more than ${maxPassengersCount} passengers`);
     }
     const maxNonVipPassengersCount = 4;
+    // ToDo: 💩 🤢 complex conditions
     if (this.isNonVip(travelerId) && passengersCount > maxNonVipPassengersCount) {
       throw new Error(`No VIPs cant't have more than ${maxNonVipPassengersCount} passengers`);
     }
@@ -81,6 +83,7 @@ export class BookingsService {
   }
 
   private isNonVip(travelerId: string): boolean {
+    // ToDo: 💩 🤢 several abstraction levels
     this.traveler = DataBase.selectOne<Traveler>(`SELECT * FROM travelers WHERE id = '${travelerId}'`);
     return this.traveler.isVip;
   }
@@ -116,6 +119,7 @@ export class BookingsService {
     } else {
       this.booking.status = BookingStatus.ERROR;
       const smtp = new SmtpService();
+      // ToDo: 💩 🤢 several abstraction levels
       smtp.sendMail(
         "payments@astrobookings.com",
         this.traveler.email,
@@ -132,6 +136,7 @@ export class BookingsService {
     const minutesPerHour = 60;
     const hoursPerDay = 24;
 
+    // ToDo: 💩 🤢 large process with comments
     const millisecondsPerDay = millisecondsPerSecond * secondsPerMinute * minutesPerHour * hoursPerDay;
     const stayingNights = Math.round(this.trip.endDate.getTime() - this.trip.startDate.getTime() / millisecondsPerDay);
     // Calculate staying price

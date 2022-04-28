@@ -9,6 +9,9 @@ import { Trip, TripStatus } from "./trip";
 
 export class TripsService {
   public cancelTrip(tripId: string) {
+    // ToDo: 💩 🤢 several abstraction levels
+    // ToDo: 💩 🤢 nested structures
+
     const trip: Trip = DataBase.selectOne<Trip>(`SELECT * FROM trips WHERE id = '${tripId}'`);
     trip.status = TripStatus.CANCELLED;
     DataBase.update(trip);
