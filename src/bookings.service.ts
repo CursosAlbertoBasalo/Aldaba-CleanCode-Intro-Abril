@@ -36,6 +36,7 @@ export class BookingsService {
     hasPremiumFoods: boolean,
     extraLuggageKilos: number,
   ): Booking {
+    // ToDo: 💩 🤢 validation conditional and nested conditionals
     if (travelerId && tripId) {
       this.create(travelerId, tripId, passengersCount, hasPremiumFoods, extraLuggageKilos);
       this.save();
