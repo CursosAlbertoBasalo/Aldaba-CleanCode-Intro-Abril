@@ -6,6 +6,8 @@ import { SmtpService } from "./smtp.service";
 export class NotificationsService {
   private smtp = new SmtpService();
 
+  // * 🧼 🚿 CLEAN: No more switches
+
   public notifyTripCancellation(cancellation: NotificationEventDto): string {
     const notification = notificationsMap.find((n) => n.kind === NotificationKinds.TRIP_CANCELLED);
     return this.smtp.sendMail({
