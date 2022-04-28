@@ -1,11 +1,9 @@
 import { BookingDto } from "./booking.dto";
-import { BookingsRequestDto } from "./bookings_request.dto";
 import { BookingsRequestVo } from "./bookings_request.vo";
 import { BookingStatus } from "./booking_status.enum";
 import { CreditCardVo } from "./credit_card.vo";
 import { DataBase } from "./data_base";
 import { DateRangeVo } from "./date_range.vo";
-import { NotificationsService } from "./notifications.service";
 import { PaymentsService } from "./payments.service";
 import { SmtpService } from "./smtp.service";
 import { TravelerDto } from "./traveler.dto";
@@ -14,63 +12,37 @@ import { TripDto } from "./trip.dto";
 // ToDo : 💩 🤢 Too many responsibilities
 
 export class BookingsService {
-  private booking!: BookingDto;
+  public booking!: BookingDto;
   private trip!: TripDto;
-  private traveler!: TravelerDto;
-  private bookingsRequest!: BookingsRequestVo;
+  // private traveler!: TravelerDto;
+  private bookingsRequest: BookingsRequestVo;
 
-  /**
-   * Requests a new booking
-   * @param bookingsRequestDTO - the booking request
-   * @returns {BookingDto} the new booking object
-   * @throws {Error} if the booking is not possible
-   */
-  public request(bookingsRequestDTO: BookingsRequestDto): BookingDto {
-    this.bookingsRequest = new BookingsRequestVo(bookingsRequestDTO);
-    this.create();
-    this.save();
-    this.pay();
-    this.notify();
-    return this.booking;
-  }
-  notify() {
-    if (this.booking.id === undefined) {
-      return;
-    }
-    const notifications = new NotificationsService();
-    return notifications.notifyBookingConfirmation({
-      recipient: this.traveler.email,
-      tripDestination: this.trip.destination,
-      bookingId: this.booking.id,
-    });
+  constructor(bookingsRequest: BookingsRequestVo) {
+    this.bookingsRequest = bookingsRequest;
   }
 
-  private pay() {
-    try {
-      this.payWithCreditCard(this.bookingsRequest.card);
-    } catch (error) {
-      this.booking.status = BookingStatus.ERROR;
-      DataBase.update(this.booking);
-      throw error;
-    }
-  }
-
-  private create(): void {
-    this.bookingsRequest.passengersCount = this.getValidatedPassengersCount();
-    this.checkAvailability();
-    this.booking = new BookingDto(
-      this.bookingsRequest.tripId,
-      this.bookingsRequest.travelerId,
-      this.bookingsRequest.passengersCount,
-    );
-    this.booking.hasPremiumFoods = this.bookingsRequest.hasPremiumFoods;
-    this.booking.extraLuggageKilos = this.bookingsRequest.extraLuggageKilos;
-  }
-
-  private getValidatedPassengersCount() {
+  getValidatedPassengersCount() {
     this.assertPassengers();
-
     return this.bookingsRequest.passengersCount;
+  }
+
+  payWithCreditCard(creditCard: CreditCardVo) {
+    this.booking.price = this.calculatePrice();
+    const paymentId = this.payPriceWithCard(creditCard);
+    if (paymentId != "") {
+      this.setPaymentStatus();
+    } else {
+      this.processNonPayedBooking(creditCard.number);
+    }
+    DataBase.update(this.booking);
+  }
+
+  checkAvailability() {
+    this.trip = DataBase.selectOne<TripDto>(`SELECT * FROM trips WHERE id = '${this.bookingsRequest.tripId}'`);
+    const hasAvailableSeats = this.trip.availablePlaces >= this.bookingsRequest.passengersCount;
+    if (!hasAvailableSeats) {
+      throw new Error("There are no seats available in the trip");
+    }
   }
 
   private assertPassengers() {
@@ -95,29 +67,6 @@ export class BookingsService {
   private isNonVip(travelerId: string): boolean {
     this.traveler = DataBase.selectOne<TravelerDto>(`SELECT * FROM travelers WHERE id = '${travelerId}'`);
     return this.traveler.isVip;
-  }
-
-  private checkAvailability() {
-    this.trip = DataBase.selectOne<TripDto>(`SELECT * FROM trips WHERE id = '${this.bookingsRequest.tripId}'`);
-    const hasAvailableSeats = this.trip.availablePlaces >= this.bookingsRequest.passengersCount;
-    if (!hasAvailableSeats) {
-      throw new Error("There are no seats available in the trip");
-    }
-  }
-
-  private save() {
-    this.booking.id = DataBase.insert<BookingDto>(this.booking);
-  }
-
-  private payWithCreditCard(creditCard: CreditCardVo) {
-    this.booking.price = this.calculatePrice();
-    const paymentId = this.payPriceWithCard(creditCard);
-    if (paymentId != "") {
-      this.setPaymentStatus();
-    } else {
-      this.processNonPayedBooking(creditCard.number);
-    }
-    DataBase.update(this.booking);
   }
 
   private payPriceWithCard(creditCard: CreditCardVo) {
