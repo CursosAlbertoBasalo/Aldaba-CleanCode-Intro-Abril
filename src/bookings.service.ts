@@ -28,7 +28,7 @@ export class BookingsService {
     // * 🧼 🚿 CLEAN:  Saved as a property on the class to reduce method parameters
     this.bookingsRequest = new BookingsRequestVo(bookingsRequestDTO);
     this.create();
-    this.save();
+    this.booking.id = this.save();
     this.pay();
     this.notify();
     return this.booking;
@@ -93,12 +93,12 @@ export class BookingsService {
   }
 
   private isNonVip(travelerId: string): boolean {
-    this.traveler = DataBase.selectOne<TravelerDto>(`SELECT * FROM travelers WHERE id = '${travelerId}'`);
+    this.traveler = this.selectTraveler(travelerId);
     return this.traveler.isVip;
   }
 
   private checkAvailability() {
-    this.trip = DataBase.selectOne<TripDto>(`SELECT * FROM trips WHERE id = '${this.bookingsRequest.tripId}'`);
+    this.trip = this.selectTrip(this.bookingsRequest.tripId);
     const hasAvailableSeats = this.trip.availablePlaces >= this.bookingsRequest.passengersCount;
     if (!hasAvailableSeats) {
       throw new Error("There are no seats available in the trip");
@@ -106,7 +106,7 @@ export class BookingsService {
   }
 
   private save() {
-    this.booking.id = DataBase.insert<BookingDto>(this.booking);
+    return DataBase.insert<BookingDto>(this.booking);
   }
 
   private payWithCreditCard(creditCard: CreditCardVo) {
@@ -117,7 +117,7 @@ export class BookingsService {
     } else {
       this.processNonPayedBooking(creditCard.number);
     }
-    DataBase.update(this.booking);
+    this.update();
   }
 
   private payPriceWithCard(creditCard: CreditCardVo) {
@@ -128,7 +128,12 @@ export class BookingsService {
 
   private processNonPayedBooking(cardNumber: string) {
     this.booking.status = BookingStatus.ERROR;
+    this.sendPaymentErrorEmail(cardNumber);
+  }
+
+  private sendPaymentErrorEmail(cardNumber: string) {
     const smtp = new SmtpService();
+    // * 🧼 🚿 CLEAN:  Data transfer object to avoid multiple parameters on methods signatures
     smtp.sendMail({
       from: "payments@astrobookings.com",
       to: this.traveler.email,
@@ -160,5 +165,16 @@ export class BookingsService {
     const flightPrice = this.trip.flightPrice + premiumFoodsPrice;
     const passengerPrice = flightPrice + stayingPrice;
     return passengerPrice;
+  }
+
+  private selectTrip(tripId: string) {
+    return DataBase.selectOne<TripDto>(`SELECT * FROM trips WHERE id = '${tripId}'`);
+  }
+
+  private selectTraveler(travelerId: string) {
+    return DataBase.selectOne<TravelerDto>(`SELECT * FROM travelers WHERE id = '${travelerId}'`);
+  }
+  private update() {
+    DataBase.update(this.booking);
   }
 }
