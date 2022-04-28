@@ -15,6 +15,17 @@ export class TripsService {
     }
   }
 
+  public findTrips(destination: string, startDate: Date, endDate: Date): Trip[] {
+    // ToDo: 💩 🤢 Validation of primitive parameters
+    if (startDate > endDate) {
+      throw new Error("Invalid dates");
+    }
+    const trips: Trip[] = DataBase.select(
+      `SELECT * FROM trips WHERE destination = '${destination}' AND start_date >= '${startDate}' AND end_date <= '${endDate}'`,
+    );
+    return trips;
+  }
+
   private cancelBookings(bookings: Booking[], trip: Trip) {
     const smtp = new SmtpService();
     for (const booking of bookings) {

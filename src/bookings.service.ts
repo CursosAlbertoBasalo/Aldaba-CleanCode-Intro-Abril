@@ -33,11 +33,14 @@ export class BookingsService {
     hasPremiumFoods: boolean,
     extraLuggageKilos: number,
   ): Booking {
+    // ToDo: 💩 🤢 Several incoming parameters
     if (this.hasEntitiesId(travelerId, tripId) === false) {
       throw new Error("Invalid parameters");
     }
+    // ToDo: 💩 🤢 Several internal parameters
     this.create(travelerId, tripId, passengersCount, hasPremiumFoods, extraLuggageKilos);
     this.booking.id = this.save();
+    // ToDo: 💩 🤢 Credit card primitives
     this.pay(cardNumber, cardExpiry, cardCVC);
     return this.booking;
   }
@@ -182,6 +185,7 @@ export class BookingsService {
   }
 
   private calculateStayingNights(millisecondsPerDay: number) {
+    // ToDo: 💩 🤢 Date range primitives
     const millisecondsTripDuration = this.trip.endDate.getTime() - this.trip.startDate.getTime();
     const rawStayingNights = millisecondsTripDuration / millisecondsPerDay;
     const stayingNights = Math.round(rawStayingNights);

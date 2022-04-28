@@ -32,6 +32,8 @@ export class NotificationsService {
     );
   }
 
+  // ToDo: 💩 🤢 mapping switches 😱😱
+
   private getSender(kind: NotificationKinds): string {
     switch (kind) {
       case NotificationKinds.BOOKING_CONFIRMED:

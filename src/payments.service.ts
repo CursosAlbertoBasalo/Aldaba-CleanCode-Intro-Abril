@@ -9,6 +9,8 @@ export class PaymentsService {
   private payMeAPIUrl = "https://pay-me.com/v1/payments";
   private bankEmail = "humanprocessor@bancka.com";
 
+  // ToDo: 💩 🤢 Arguments as primitives
+
   public payWithCard(booking: Booking, cardNumber: string, cardExpiry: string, cardCVC: string) {
     const url = `${this.cardWayAPIUrl}payments/card${cardNumber}/${cardExpiry}/${cardCVC}`;
     const response = HttpService.request(url, {
