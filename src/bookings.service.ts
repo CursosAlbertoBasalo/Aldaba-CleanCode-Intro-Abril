@@ -1,6 +1,5 @@
 import { Booking, BookingStatus } from "./booking";
 import { DataBase } from "./data_base";
-import { NotificationsService } from "./notifications.service";
 import { PaymentsService } from "./payments.service";
 import { SmtpService } from "./smtp.service";
 import { Traveler } from "./traveler";
@@ -40,16 +39,7 @@ export class BookingsService {
     this.create(travelerId, tripId, passengersCount, hasPremiumFoods, extraLuggageKilos);
     this.booking.id = this.save();
     this.pay(cardNumber, cardExpiry, cardCVC);
-    this.notify();
     return this.booking;
-  }
-
-  private notify() {
-    if (this.booking.id === undefined) {
-      return;
-    }
-    const notifications = new NotificationsService();
-    return notifications.notifyBookingConfirmation(this.traveler.email, this.trip.destination, this.booking.id);
   }
 
   private pay(cardNumber: string, cardExpiry: string, cardCVC: string) {
@@ -172,10 +162,10 @@ export class BookingsService {
   private calculatePrice(): number {
     const millisecondsPerDay = this.calculateMillisecondsPerDay();
     const stayingNights = this.calculateStayingNights(millisecondsPerDay);
+
     const passengerPrice = this.calculatePassengerPrice(stayingNights);
     const passengersPrice = passengerPrice * this.booking.passengersCount;
     const extraTripPrice = this.calculateExtraPricePerTrip();
-
     return passengersPrice + extraTripPrice;
   }
 
@@ -188,7 +178,6 @@ export class BookingsService {
     const premiumFoodsPrice = this.booking.hasPremiumFoods ? this.trip.premiumFoodPrice : 0;
     const flightPrice = this.trip.flightPrice + premiumFoodsPrice;
     const passengerPrice = flightPrice + stayingPrice;
-
     return passengerPrice;
   }
 
@@ -196,7 +185,6 @@ export class BookingsService {
     const millisecondsTripDuration = this.trip.endDate.getTime() - this.trip.startDate.getTime();
     const rawStayingNights = millisecondsTripDuration / millisecondsPerDay;
     const stayingNights = Math.round(rawStayingNights);
-
     return stayingNights;
   }
 
@@ -205,11 +193,9 @@ export class BookingsService {
     const secondsPerMinute = 60;
     const minutesPerHour = 60;
     const hoursPerDay = 24;
-
     const millisecondsPerMinute = millisecondsPerSecond * secondsPerMinute;
     const millisecondsPerHour = millisecondsPerMinute * minutesPerHour;
     const millisecondsPerDay = millisecondsPerHour * hoursPerDay;
-
     return millisecondsPerDay;
   }
 }
