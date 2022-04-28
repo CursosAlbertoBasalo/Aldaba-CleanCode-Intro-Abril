@@ -1,4 +1,3 @@
-// ToDo: extract to file
 export enum BookingStatus {
   REQUESTED,
   PAID,
